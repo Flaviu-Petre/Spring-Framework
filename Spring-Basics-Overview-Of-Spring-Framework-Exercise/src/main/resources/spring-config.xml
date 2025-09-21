@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- Enable annotation-driven configuration -->
+    <context:annotation-config />
+
+    <!-- Enable component scanning for Spring annotations -->
+    <context:component-scan base-package="com.glo" />
+
+    <!-- Enable AOP (Aspect-Oriented Programming) -->
+    <aop:aspectj-autoproxy />
+
+    <!-- Property placeholder configuration -->
+    <context:property-placeholder location="classpath:application.properties"
+                                  ignore-resource-not-found="true" />
+
+    <!-- Fleet Bean Definitions - Updated for new Fleet class -->
+    <!-- Fleet Constructor: Fleet(long fleetId, String origin, String destination, int requiredFleets) -->
+
+    <bean id="fleet1" class="com.glo.Fleet">
+        <constructor-arg name="fleetId" value="1001" />
+        <constructor-arg name="origin" value="New York" />
+        <constructor-arg name="destination" value="Los Angeles" />
+        <constructor-arg name="requiredFleets" value="5" />
+    </bean>
+
+    <bean id="fleet2" class="com.glo.Fleet">
+        <constructor-arg name="fleetId" value="1002" />
+        <constructor-arg name="origin" value="Chicago" />
+        <constructor-arg name="destination" value="Miami" />
+        <constructor-arg name="requiredFleets" value="3" />
+    </bean>
+
+    <bean id="fleet3" class="com.glo.Fleet">
+        <constructor-arg name="fleetId" value="1003" />
+        <constructor-arg name="origin" value="Seattle" />
+        <constructor-arg name="destination" value="Denver" />
+        <constructor-arg name="requiredFleets" value="7" />
+    </bean>
+
+    <bean id="fleet4" class="com.glo.Fleet">
+        <constructor-arg name="fleetId" value="1004" />
+        <constructor-arg name="origin" value="Dallas" />
+        <constructor-arg name="destination" value="Atlanta" />
+        <constructor-arg name="requiredFleets" value="4" />
+    </bean>
+
+    <bean id="fleet5" class="com.glo.Fleet">
+        <constructor-arg name="fleetId" value="1005" />
+        <constructor-arg name="origin" value="Phoenix" />
+        <constructor-arg name="destination" value="Boston" />
+        <constructor-arg name="requiredFleets" value="6" />
+    </bean>
+
+    <bean id="fleet6" class="com.glo.Fleet">
+        <constructor-arg name="fleetId" value="1006" />
+        <constructor-arg name="origin" value="San Francisco" />
+        <constructor-arg name="destination" value="Las Vegas" />
+        <constructor-arg name="requiredFleets" value="2" />
+    </bean>
+
+    <bean id="fleet7" class="com.glo.Fleet">
+        <constructor-arg name="fleetId" value="1007" />
+        <constructor-arg name="origin" value="Portland" />
+        <constructor-arg name="destination" value="Sacramento" />
+        <constructor-arg name="requiredFleets" value="8" />
+    </bean>
+
+    <!-- Client Bean Definitions (keeping existing Client class structure) -->
+    <bean id="client1" class="com.glo.Client">
+        <constructor-arg name="clientId" value="2001" />
+        <constructor-arg name="clientName" value="Global Manufacturing Corp" />
+    </bean>
+
+    <bean id="client2" class="com.glo.Client">
+        <constructor-arg name="clientId" value="2002" />
+        <constructor-arg name="clientName" value="Retail Solutions Ltd" />
+    </bean>
+
+    <bean id="client3" class="com.glo.Client">
+        <constructor-arg name="clientId" value="2003" />
+        <constructor-arg name="clientName" value="E-Commerce Distributors Inc" />
+    </bean>
+
+    <bean id="client4" class="com.glo.Client">
+        <constructor-arg name="clientId" value="2004" />
+        <constructor-arg name="clientName" value="Food Beverage Suppliers" />
+    </bean>
+</beans>
