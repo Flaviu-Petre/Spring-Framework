@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Enable annotation processing for @PostConstruct, @PreDestroy, @Autowired, @Qualifier -->
+    <context:annotation-config />
+
+    <!-- ====================== FLEET CONFIGURATION ====================== -->
+
+    <!-- Configure Fleet bean using factory method with lifecycle methods -->
+    <bean id="fleet"
+          class="com.glo.client.Fleet"
+          factory-method="createFleetInstance"
+          init-method="customInitMethod"
+          destroy-method="customDestroyMethod">
+
+        <!-- Constructor arguments for factory method -->
+        <constructor-arg index="0" type="int" value="1001"/>
+        <constructor-arg index="1" type="int" value="5"/>
+        <constructor-arg index="2" type="java.lang.String" value="New York"/>
+        <constructor-arg index="3" type="java.lang.String" value="Los Angeles"/>
+    </bean>
+
+    <!-- ====================== REPOSITORY CONFIGURATION ====================== -->
+
+    <!-- Regular FreightRepository -->
+    <bean id="freightRepository" class="com.glo.repository.FreightRepositoryImpl">
+        <property name="freightList">
+            <list>
+                <!-- Initialize with empty list -->
+            </list>
+        </property>
+    </bean>
+
+    <!-- FastFreightRepositoryImpl - for demonstrating @Qualifier -->
+    <bean id="fastFreightRepository" class="com.glo.repository.FastFreightRepositoryImpl">
+        <property name="freightList">
+            <list>
+                <!-- Initialize with empty list -->
+            </list>
+        </property>
+    </bean>
+
+    <!-- FleetRepository -->
+    <bean id="fleetRepository" class="com.glo.repository.FleetRepositoryImpl">
+        <constructor-arg>
+            <list>
+                <!-- Initialize with empty list -->
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- ====================== SERVICE CONFIGURATION ====================== -->
+
+    <!-- Regular FreightService with constructor injection -->
+    <bean id="freightService" class="com.glo.service.FreightServiceImpl">
+        <constructor-arg ref="freightRepository"/>
+    </bean>
+
+    <!-- FastFreightService with constructor injection using FastFreightRepository -->
+    <bean id="fastFreightService" class="com.glo.service.FastFreightServiceImpl">
+        <constructor-arg ref="fastFreightRepository"/>
+    </bean>
+
+    <!-- FleetService with constructor injection -->
+    <bean id="fleetService" class="com.glo.service.FleetServiceImpl">
+        <constructor-arg ref="fleetRepository"/>
+    </bean>
+
+    <!-- ====================== CLIENT CONFIGURATION - DEMONSTRATING DIVERSE AUTOWIRING ====================== -->
+
+    <!-- 1. Client with @Autowired annotation (annotation-based autowiring) -->
+    <bean id="clientWithAutowired" class="com.glo.client.Client">
+        <!-- Weight initialized through constructor -->
+        <constructor-arg type="double" value="120.5"/>
+        <!-- FreightService will be injected via @Autowired annotation in the class -->
+        <!-- Note: @Autowired works because of <context:annotation-config /> -->
+    </bean>
+
+    <!-- 2. Client with constructor injection (constructor-based autowiring) -->
+    <bean id="clientWithConstructor" class="com.glo.client.Client">
+        <!-- Weight and FastFreightService injected through constructor -->
+        <constructor-arg index="0" type="double" value="150.0"/>
+        <constructor-arg index="1" ref="fastFreightService"/>
+    </bean>
+
+    <!-- 3. Client with setter injection (setter-based autowiring) -->
+    <bean id="clientWithSetter" class="com.glo.client.Client">
+        <!-- Weight initialized through constructor, then overridden by setter -->
+        <constructor-arg type="double" value="100.0"/>
+        <!-- Properties set through setter injection -->
+        <property name="weight" value="175.25"/>
+        <property name="freightService" ref="freightService"/>
+    </bean>
+
+    <!-- 4. Additional client demonstrating mixed injection modes -->
+    <bean id="clientMixed" class="com.glo.client.Client">
+        <!-- Constructor injection for weight -->
+        <constructor-arg type="double" value="200.0"/>
+        <!-- Setter injection for services -->
+        <property name="freightService" ref="freightService"/>
+        <property name="fastFreightService" ref="fastFreightService"/>
+    </bean>
+
+</beans>
