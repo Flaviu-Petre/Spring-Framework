@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- ========== EXISTING FREIGHT CONFIGURATION ========== -->
+
+    <!-- Constructor injection via index-->
+    <bean id="freightConstIndex" class="com.glo.client.Freight">
+        <constructor-arg index="0" value="101"></constructor-arg>
+        <constructor-arg index="1" value="Mumbai"></constructor-arg>
+        <constructor-arg index="2" value="Pune"></constructor-arg>
+    </bean>
+
+    <!-- Constructor injection via name-->
+    <bean id="freightConstName" class="com.glo.client.Freight">
+        <constructor-arg name="origin" value="Banglore"></constructor-arg>
+        <constructor-arg name="orderId" value="102"></constructor-arg>
+        <constructor-arg name="destination" value="Pune"></constructor-arg>
+    </bean>
+
+    <!-- Constructor injection via type - OPTION 4 -->
+    <bean id="freightConstType" class="com.glo.client.Freight">
+        <constructor-arg type="int" value="103"></constructor-arg>
+        <constructor-arg type="java.lang.String" value="Mumbai"></constructor-arg>
+        <constructor-arg type="java.lang.String" value="Noida"></constructor-arg>
+    </bean>
+
+    <!-- Setter injection for Freight -->
+    <bean id="freight" class="com.glo.client.Freight">
+        <property name="orderId" value="123" />
+        <property name="origin" value="Source" />
+        <property name="destination" value="Destination" />
+    </bean>
+
+    <!-- Repository and Service Configuration -->
+    <bean id="listOfFreight" class="java.util.ArrayList" />
+
+    <bean id="freightRepository" class="com.glo.repository.FreightRepositoryImpl">
+        <property name="freightList" ref="listOfFreight"></property>
+    </bean>
+
+    <bean id="freightService" class="com.glo.service.FreightServiceImpl">
+        <constructor-arg ref="freightRepository"></constructor-arg>
+    </bean>
+
+    <!-- ========== NEW FLEET MANAGEMENT CONFIGURATION ========== -->
+
+    <!-- Fleet created using Constructor Injection -->
+    <bean id="fleetConstructorInjection" class="com.glo.client.Fleet">
+        <constructor-arg type="int" value="1001"/>
+        <constructor-arg type="java.lang.String" value="North Zone Fleet"/>
+        <constructor-arg type="java.lang.String" value="Delhi"/>
+        <constructor-arg type="int" value="25"/>
+    </bean>
+
+    <!-- Fleet created using Setter Injection -->
+    <bean id="fleetSetterInjection" class="com.glo.client.Fleet">
+        <property name="fleetId" value="1002"/>
+        <property name="fleetName" value="South Zone Fleet"/>
+        <property name="location" value="Bangalore"/>
+        <property name="vehicleCount" value="30"/>
+        <property name="vehicleTypes">
+            <list>
+                <value>Truck</value>
+                <value>Van</value>
+                <value>Trailer</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Additional Fleet using Constructor Injection -->
+    <bean id="fleetWestZone" class="com.glo.client.Fleet">
+        <constructor-arg type="int" value="1003"/>
+        <constructor-arg type="java.lang.String" value="West Zone Fleet"/>
+        <constructor-arg type="java.lang.String" value="Mumbai"/>
+        <constructor-arg type="int" value="20"/>
+    </bean>
+
+    <!-- Additional Fleet using Setter Injection -->
+    <bean id="fleetEastZone" class="com.glo.client.Fleet">
+        <property name="fleetId" value="1004"/>
+        <property name="fleetName" value="East Zone Fleet"/>
+        <property name="location" value="Kolkata"/>
+        <property name="vehicleCount" value="18"/>
+        <property name="vehicleTypes">
+            <list>
+                <value>Truck</value>
+                <value>Mini Truck</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>
